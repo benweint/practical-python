@@ -17,7 +17,7 @@ def portfolio_cost(filename):
 				shares = int(row[shares_idx])
 				price = float(row[price_idx])
 			except ValueError as e:
-				print(f'Skipping line {line} due to error: {e}')
+				print(f'Skipping row {row} due to error: {e}')
 			cost = price * shares
 			total_cost += cost
 	return total_cost
