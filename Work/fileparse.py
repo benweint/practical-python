@@ -17,15 +17,21 @@ def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','
 			headers = None
 
 		records = []
-		for row in rows:
+		for line, row in enumerate(rows, start=1):
 			if not row: # Skip rows with no data
 				continue
 
 			if types:
-				row = [f(x) for f, x in zip(types, row)]
+				try:
+					row = [f(x) for f, x in zip(types, row)]
+				except ValueError as e:
+					print(f"Row {line}: Couldn't convert {row}")
+					print(f"Reason: {e}")
+					continue
 
 			if select:
-				# TODO: select + has_headers=False is invalid!
+				if not has_headers:
+					raise RuntimeError('select argument requires column headers')
 				record = { k: v for k, v in zip(headers, row) if k in select }
 			elif headers:
 				record = dict(zip(headers, row))
