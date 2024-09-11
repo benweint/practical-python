@@ -18,6 +18,33 @@ def read_portfolio(filename):
 				price = float(row[price_idx])
 			except ValueError as e:
 				print(f'Skipping row {row} due to error: {e}')
-			result.append((row[name_idx], shares, price))
+			result.append({
+				'name': row[name_idx],
+				'shares': shares,
+				'price': price,
+			})
 	return result
 
+def read_prices(filename):
+	result = {}
+	with open(filename, 'rt') as f:
+		rows = csv.reader(f)
+		for row in rows:
+			if len(row) < 2:
+				continue
+			result[row[0]] = float(row[1])
+	return result
+
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+
+basis = 0
+current_value = 0
+for holding in portfolio:
+	basis += holding['shares'] * holding['price']
+	current_value += holding['shares'] * prices[holding['name']]
+
+print(f'Cost basis:    ${basis:.2f}')
+print(f'Current value: ${current_value:.2f}')
+print(f'Net change:    ${current_value - basis:.2f}')
