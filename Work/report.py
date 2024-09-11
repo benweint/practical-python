@@ -9,20 +9,14 @@ def read_portfolio(filename):
 	with open(filename, "rt") as f:
 		rows = csv.reader(f)
 		headers = next(rows)
-		name_idx = headers.index('name')
-		shares_idx = headers.index('shares')
-		price_idx = headers.index('price')
 		for lineno, row in enumerate(rows, start=1):
+			record = dict(zip(headers, row))
 			try:
-				shares = int(row[shares_idx])
-				price = float(row[price_idx])
+				record['shares'] = int(record['shares'])
+				record['price'] = float(record['price'])
 			except ValueError as e:
-				print(f"Row {lineno}: Couldn't convert: {row}')")
-			result.append({
-				'name': row[name_idx],
-				'shares': shares,
-				'price': price,
-			})
+				print(f"Row {lineno}: Couldn't convert: {record}')")
+			result.append(record)
 	return result
 
 
