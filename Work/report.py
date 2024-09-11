@@ -55,4 +55,5 @@ print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}'
 print(' '.join(['-' * 10] * len(headers)))
 
 for name, shares, price, change in report:
-	print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+	formatted_price = f'${price:.2f}'
+	print(f'{name:>10s} {shares:>10d} ${formatted_price:>10s} {change:>10.2f}')
