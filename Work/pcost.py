@@ -4,23 +4,11 @@
 
 import csv
 import sys
+from report import read_portfolio
 
 def portfolio_cost(filename):
-	total_cost = 0
-	with open(filename, "rt") as f:
-		rows = csv.reader(f)
-		headers = next(rows)
-		shares_idx = headers.index('shares')
-		price_idx = headers.index('price')
-		for row in rows:
-			try:
-				shares = int(row[shares_idx])
-				price = float(row[price_idx])
-			except ValueError as e:
-				print(f'Skipping row {row} due to error: {e}')
-			cost = price * shares
-			total_cost += cost
-	return total_cost
+	portfolio = read_portfolio(filename)
+	return sum(holding['shares'] * holding['price'] for holding in portfolio)
 
 if len(sys.argv) == 2:
 	filename = sys.argv[1]
