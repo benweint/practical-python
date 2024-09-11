@@ -42,19 +42,15 @@ def make_report(portfolio, prices):
 	for holding in portfolio:
 		current_price = prices[holding['name']]
 		change = current_price - holding['price']
-		result.append((holding['name'], holding['shares'], holding['price'], change))
+		result.append((holding['name'], holding['shares'], current_price, change))
 	return result
 
 
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
+report = make_report(portfolio, prices)
 
-basis = 0
-current_value = 0
-for holding in portfolio:
-	basis += holding['shares'] * holding['price']
-	current_value += holding['shares'] * prices[holding['name']]
-
-print(f'Cost basis:    ${basis:.2f}')
-print(f'Current value: ${current_value:.2f}')
-print(f'Net change:    ${current_value - basis:.2f}')
+print('Name       Shares     Price      Change    ')
+print('---------- ---------- ---------- ----------')
+for name, shares, price, change in report:
+	print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
