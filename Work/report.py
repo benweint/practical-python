@@ -25,6 +25,7 @@ def read_portfolio(filename):
 			})
 	return result
 
+
 def read_prices(filename):
 	result = {}
 	with open(filename, 'rt') as f:
@@ -33,6 +34,15 @@ def read_prices(filename):
 			if len(row) < 2:
 				continue
 			result[row[0]] = float(row[1])
+	return result
+
+
+def make_report(portfolio, prices):
+	result = []
+	for holding in portfolio:
+		current_price = prices[holding['name']]
+		change = current_price - holding['price']
+		result.append((holding['name'], holding['shares'], holding['price'], change))
 	return result
 
 
