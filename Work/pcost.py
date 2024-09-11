@@ -2,17 +2,19 @@
 #
 # Exercise 1.27
 
+import csv
+
 def portfolio_cost(filename):
 	total_cost = 0
 	with open(filename, "rt") as f:
-		headers = next(f).strip().split(",")
+		rows = csv.reader(f)
+		headers = next(rows)
 		shares_idx = headers.index('shares')
 		price_idx = headers.index('price')
-		for line in f:
-			cols = line.split(",")
+		for row in rows:
 			try:
-				shares = int(cols[shares_idx])
-				price = float(cols[price_idx])
+				shares = int(row[shares_idx])
+				price = float(row[price_idx])
 			except ValueError as e:
 				print(f'Skipping line {line} due to error: {e}')
 			cost = price * shares
