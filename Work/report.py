@@ -3,33 +3,13 @@
 # Exercise 2.4
 
 import csv
+import fileparse
 
 def read_portfolio(filename):
-	result = []
-	with open(filename, "rt") as f:
-		rows = csv.reader(f)
-		headers = next(rows)
-		for lineno, row in enumerate(rows, start=1):
-			record = dict(zip(headers, row))
-			try:
-				record['shares'] = int(record['shares'])
-				record['price'] = float(record['price'])
-			except ValueError as e:
-				print(f"Row {lineno}: Couldn't convert: {record}')")
-			result.append(record)
-	return result
-
+	return fileparse.parse_csv(filename, select=['name', 'shares', 'price'], types=[str,int,float])
 
 def read_prices(filename):
-	result = {}
-	with open(filename, 'rt') as f:
-		rows = csv.reader(f)
-		for row in rows:
-			if len(row) < 2:
-				continue
-			result[row[0]] = float(row[1])
-	return result
-
+	return dict(fileparse.parse_csv(filename, has_headers=False, types=[str,float]))
 
 def make_report(portfolio, prices):
 	result = []
