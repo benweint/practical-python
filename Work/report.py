@@ -12,12 +12,12 @@ def read_portfolio(filename):
 		name_idx = headers.index('name')
 		shares_idx = headers.index('shares')
 		price_idx = headers.index('price')
-		for row in rows:
+		for lineno, row in enumerate(rows, start=1):
 			try:
 				shares = int(row[shares_idx])
 				price = float(row[price_idx])
 			except ValueError as e:
-				print(f'Skipping row {row} due to error: {e}')
+				print(f"Row {lineno}: Couldn't convert: {row}')")
 			result.append({
 				'name': row[name_idx],
 				'shares': shares,
