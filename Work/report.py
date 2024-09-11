@@ -37,4 +37,9 @@ def portfolio_report(portfolio_path, prices_path):
 	print_report(report)
 
 
-portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+def main(args):
+	portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+
+if __name__ == '__main__':
+	import sys
+	main(sys.argv)
