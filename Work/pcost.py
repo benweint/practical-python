@@ -7,8 +7,8 @@ import sys
 from report import read_portfolio
 
 def portfolio_cost(filename):
-	portfolio = read_portfolio(filename)
-	return sum(holding.cost for holding in portfolio)
+	return read_portfolio(filename).total_cost
+
 
 def main(args):
 	if len(sys.argv) == 2:

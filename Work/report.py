@@ -6,11 +6,14 @@ import csv
 import fileparse
 import tableformat
 from stock import Stock
+from portfolio import Portfolio
+
 
 def read_portfolio(filename):
 	with open(filename, 'rt') as f:
 		records = fileparse.parse_csv(f, select=['name', 'shares', 'price'], types=[str,int,float])
-	return [Stock(r['name'], r['shares'], r['price']) for r in records]
+	holdings = [Stock(r['name'], r['shares'], r['price']) for r in records]
+	return Portfolio(holdings)
 
 
 def read_prices(filename):
@@ -29,8 +32,6 @@ def make_report(portfolio, prices):
 
 def print_report(report, formatter):
 	formatter.headings(['Name', 'Shares', 'Price', 'Change'])
-	# print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
-	# print(' '.join(['-' * 10] * len(headers)))
 
 	for name, shares, price, change in report:
 		formatted_price = f'${price:.2f}'
