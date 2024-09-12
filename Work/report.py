@@ -12,7 +12,7 @@ from portfolio import Portfolio
 def read_portfolio(filename):
 	with open(filename, 'rt') as f:
 		records = fileparse.parse_csv(f, select=['name', 'shares', 'price'], types=[str,int,float])
-	holdings = [Stock(r['name'], r['shares'], r['price']) for r in records]
+	holdings = [Stock(**r) for r in records]
 	return Portfolio(holdings)
 
 
