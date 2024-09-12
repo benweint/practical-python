@@ -33,7 +33,7 @@ def print_report(report):
 
 	for name, shares, price, change in report:
 		formatted_price = f'${price:.2f}'
-		print(f'{name:>10s} {shares:>10d} ${formatted_price:>10s} {change:>10.2f}')
+		print(f'{name:>10s} {shares:>10d} {formatted_price:>10s} {change:>10.2f}')
 
 
 def portfolio_report(portfolio_path, prices_path):
