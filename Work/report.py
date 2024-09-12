@@ -38,16 +38,20 @@ def print_report(report, formatter):
 		formatter.row(rowdata)
 
 
-def portfolio_report(portfolio_path, prices_path):
+def portfolio_report(portfolio_path, prices_path, format='txt'):
 	portfolio = read_portfolio(portfolio_path)
 	prices = read_prices(prices_path)
 	report = make_report(portfolio, prices)
-	formatter = tableformat.TextTableFormatter()
+	formatter = tableformat.create_formatter(format)
 	print_report(report, formatter)
 
 
 def main(args):
-	portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+	if len(args) == 1:
+		args = [args[0], 'Data/portfolio.csv', 'Data/prices.csv']
+	args.pop(0)
+	portfolio_report(*args)
+
 
 if __name__ == '__main__':
 	import sys
