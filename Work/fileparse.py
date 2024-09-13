@@ -3,8 +3,11 @@
 # Exercise 3.3
 
 import csv
+import logging
+log = logging.getLogger(__name__)
 
-def parse_csv(input, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
+
+def parse_csv(input, select=None, types=None, has_headers=True, delimiter=','):
 	'''
 	Parse a CSV-like input stream into a list of records
 	'''
@@ -23,9 +26,8 @@ def parse_csv(input, select=None, types=None, has_headers=True, delimiter=',', s
 			try:
 				row = [f(x) for f, x in zip(types, row)]
 			except ValueError as e:
-				if not silence_errors:
-					print(f"Row {line}: Couldn't convert {row}")
-					print(f"Reason: {e}")
+				log.warning(f"Row {line}: Couldn't convert {row}")
+				log.debug(f"Reason: {e}")
 				continue
 
 		if select:
