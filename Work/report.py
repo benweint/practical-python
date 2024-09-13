@@ -11,9 +11,7 @@ from portfolio import Portfolio
 
 def read_portfolio(filename, **opts):
 	with open(filename, 'rt') as f:
-		records = fileparse.parse_csv(f, select=['name', 'shares', 'price'], types=[str,int,float], **opts)
-	holdings = [Stock(**r) for r in records]
-	return Portfolio(holdings)
+		return Portfolio.from_csv(f)
 
 
 def read_prices(filename):

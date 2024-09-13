@@ -9,4 +9,3 @@ def timethis(func):
 		print(f'{func.__module__}.{func.__name__}: {end-start:.5f}')
 		return r
 	return wrapper
-

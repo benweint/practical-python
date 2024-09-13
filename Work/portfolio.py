@@ -1,8 +1,11 @@
 from collections import Counter
+import fileparse
+from stock import Stock
+
 
 class Portfolio:
-	def __init__(self, holdings):
-		self._holdings = holdings
+	def __init__(self):
+		self.holdings = []
 
 
 	@property
@@ -18,16 +21,33 @@ class Portfolio:
 
 
 	def __iter__(self):
-		return self._holdings.__iter__()
+		return self.holdings.__iter__()
 
 
 	def __len__(self):
-		return len(self._holdings)
+		return len(self.holdings)
 
 
 	def __getitem__(self, index):
-		return self._holdings[index]
+		return self.holdings[index]
 
 
 	def __contains__(self, name):
 		return any(s.name == name for s in self._holdings)
+
+
+	def append(self, stock):
+		if not isinstance(stock, Stock):
+			raise TypeError('Expected a Stock instance')
+		self.holdings.append(stock)
+
+
+	@classmethod
+	def from_csv(cls, lines, **opts):
+		self = cls()
+		dicts = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float], **opts)
+
+		for d in dicts:
+			self.append(Stock(**d))
+
+		return self
