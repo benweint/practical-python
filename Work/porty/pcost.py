@@ -4,7 +4,7 @@
 
 import csv
 import sys
-from report import read_portfolio
+from .report import read_portfolio
 
 def portfolio_cost(filename):
 	return read_portfolio(filename).total_cost
